@@ -443,19 +443,22 @@
 }
 /* ===== 手机端最小修复 ===== */
 @media (max-width: 768px) {
-  /* 1. 每屏高度=真实视口，避免地址栏截断 */
-  .slide{ height: 100dvh; }
+    .content-slide { padding: 40px 20px; }
+    .slide-title { font-size: 32px; }
+    .case-grid { grid-template-columns: 1fr; }
+    .insight-grid { grid-template-columns: 1fr; }
+}
+/* ===== 仅修复截断 ===== */
+@media (max-width: 768px) {
+    /* 1. 每屏真实视口高度 */
+    .slide{ height: 100dvh; }
 
-  /* 2. 内容区域自动撑高，允许自身滚动（不截文字） */
-  .content-slide{
-    padding: 60px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: 100%;
-    overflow-y: auto;   /* 内容超长时手指滚动 */
-  }
+    /* 2. 内容区自动滚动，不截文字 */
+    .content-slide{ overflow-y: auto; }
 
+    /* 3. 图片压矮，给字留空间 */
+    .case-image{ height: 180px !important; }
+}
   /* 3. 图片矮一点，给文字留空间 */
   .case-image{ height: 180px !important; }
 
