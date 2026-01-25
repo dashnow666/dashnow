@@ -420,16 +420,26 @@
     .case-grid{ height: 70vh; overflow-y: auto; gap: 15px; }
     .case-item{ height: auto; max-height: 70vh; overflow-y: auto; margin-bottom: 15px; }
   }
-        /* ===== 手机单栏滚动急救 ===== */
 @media (max-width: 768px) {
-  /* 第8页三列 → 单栏可滚动 */
-  .case-grid{ grid-template-columns: 1fr !important; gap: 20px; }
-  .case-item{ height: auto; max-height: 70vh; overflow-y: auto; }
-  .case-image{ height: 180px !important; }
+  /* 1. 每屏高度=真实视口，避免地址栏截断 */
+  .slide { height: 100dvh; }
 
-  /* 第10页三排 → 单屏滚动 */
-  .case-grid{ height: 70vh; overflow-y: auto; gap: 15px; }
-  .case-item{ height: auto; max-height: 70vh; overflow-y: auto; margin-bottom: 15px; }
+  /* 2. 内容区域自动撑高，允许自身滚动（不截文字） */
+  .content-slide {
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    overflow-y: auto;   /* 内容超长时手指滚动 */
+  }
+
+  /* 3. 图片矮一点，给文字留空间 */
+  .case-image { height: 180px !important; }
+
+  /* 4. 一列，但每块不固定高度 */
+  .case-grid { grid-template-columns: 1fr !important; gap: 20px; }
+  .case-item { height: auto; }
 }
     </style>
 </head>
