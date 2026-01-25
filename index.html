@@ -441,6 +441,32 @@
   .case-grid { grid-template-columns: 1fr !important; gap: 20px; }
   .case-item { height: auto; }
 }
+/* ===== 手机端最小修复 ===== */
+@media (max-width: 768px) {
+  /* 1. 每屏高度=真实视口，避免地址栏截断 */
+  .slide{ height: 100dvh; }
+
+  /* 2. 内容区域自动撑高，允许自身滚动（不截文字） */
+  .content-slide{
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    overflow-y: auto;   /* 内容超长时手指滚动 */
+  }
+
+  /* 3. 图片矮一点，给文字留空间 */
+  .case-image{ height: 180px !important; }
+
+  /* 4. 一列，但每块不固定高度 */
+  .case-grid{ grid-template-columns: 1fr !important; gap: 20px; }
+  .case-item{ height: auto; }
+
+  /* 5. 导航按钮更小，不挡内容 */
+  .nav-buttons{ gap: 12px; bottom: 20px; right: 20px; }
+  .nav-btn{ width: 48px; height: 48px; font-size: 20px; }
+}
     </style>
 </head>
 <body>
