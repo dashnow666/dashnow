@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dash Now - 创作者出海业务介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6f7ff 100%);
+            overflow-x: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 封面样式 */
+        .cover {
+            background: linear-gradient(135deg, #0052FF 0%, #00D4FF 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: 0 20px 60px rgba(0, 82, 255, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .company-name {
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 28px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* 内容页样式 */
+        .content-slide {
+            background: white;
+            padding: 80px;
+            padding-top: 140px; 
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        .slide-header {
+            position: absolute;
+            top: 40px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slide-number {
+            color: #0052FF;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-size: 48px;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .slide-subtitle {
+            font-size: 24px;
+            color: #0052FF;
+            margin-bottom: 60px;
+            font-weight: 500;
+        }
+
+        /* 目录样式 */
+        .toc-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 82, 255, 0.1);
+        }
+
+        .toc-item:hover {
+            transform: translateX(15px);
+            background: rgba(0, 82, 255, 0.05);
+            box-shadow: 0 8px 30px rgba(0, 82, 255, 0.15);
+        }
+
+        .toc-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0052FF 0%, #00D4FF 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+            font-weight: 600;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0, 82, 255, 0.3);
+        }
+
+        /* 市场洞察样式 */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 82, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 82, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 82, 255, 0.15);
+        }
+
+        .insight-title {
+            font-size: 32px;
+            color: #0052FF;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .insight-content {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* 合作模式样式 */
+        .cooperation-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .advantage-list {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .advantage-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 30px;
+            font-size: 22px;
+            color: #333;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 82, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .advantage-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(0, 82, 255, 0.15);
+        }
+
+        .advantage-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #0052FF 0%, #00D4FF 100%);
+            border-radius: 50%;
+            margin-right: 20px;
+            flex-shrink: 0;
+            margin-top: 5px;
+            box-shadow: 0 4px 10px rgba(0, 82, 255, 0.3);
+        }
+
+        /* 案例样式 */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .case-item {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 82, 255, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 82, 255, 0.1);
+        }
+
+        .case-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(0, 82, 255, 0.15);
+        }
+
+        .case-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #0052FF 0%, #00D4FF 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .case-info {
+            padding: 30px;
+        }
+
+        .case-title {
+            font-size: 24px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .case-desc {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 感谢页样式 */
+        .thank-you {
+            background: linear-gradient(135deg, #0052FF 0%, #00D4FF 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .thank-you h1 {
+            font-size: 64px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .thank-you p {
+            font-size: 28px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* 导航按钮 */
+        .nav-buttons {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 82, 255, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 82, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 82, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 82, 255, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0052FF 0%, #00D4FF 100%);
+            transition: width 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 82, 255, 0.3);
+        }
+
+        /* 双语样式 */
+        .bilingual {
+            margin-top: 10px;
+            font-size: 0.9em;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .content-slide {
+                padding: 40px 20px;
+            }
+            
+            .slide-title {
+                font-size: 32px;
+            }
+            
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- P1 封面 -->
+<div class="slide active cover">
+    <!-- Logo 容器 -->
+    <div class="logo">
+        <!-- 1. 外链方式 -->
+       <img src="./images/logo.png" alt="Dash Now Logo">
+
+        <!-- 2. 本地文件方式（与当前 html 同目录） -->
+        <!-- <img src="logo.png" alt="Dash Now Logo"> -->
+    </div>
+
+    <h1 class="company-name">Dash Now</h1>
+    <p class="subtitle">让创作者出海更简单 · Make Going Global Easier.</p>
+    <div style="display:flex; gap:32px; justify-content:center; align-items:flex-start; margin:40px 0;">
+
+  <!-- 模块1：图标 + 两行文字 -->
+  <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,.9); backdrop-filter:blur(10px); border-radius:16px; padding:16px 24px; box-shadow:0 8px 30px rgba(0,82,255,.15);">
+    <!-- 左侧图标 -->
+    <img src="./images/yt1.png" alt="MCN" style="width:48px; height:48px; object-fit:contain;">
+    <!-- 右侧文字 -->
+    <div>
+      <div style="font-size:14px; font-weight:300; color:#0052FF; line-height:1.2;">Official MCN</div>
+      <div style="font-size:20px; font-weight:700; color:#1a1a1a; line-height:1.2;">YouTube Partner</div>
+    </div>
+  </div>
+
+  <!-- 模块2：图标 + 两行文字 -->
+  <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,.9); backdrop-filter:blur(10px); border-radius:16px; padding:16px 24px; box-shadow:0 8px 30px rgba(0,82,255,.15);">
+    <!-- 左侧图标 -->
+    <img src="./images/fb1.png" alt="Partner" style="width:48px; height:48px; object-fit:contain;">
+    <!-- 右侧文字 -->
+    <div>
+      <div style="font-size:14px; font-weight:300; color:#0052FF; line-height:1.2;">Certified Partner</div>
+      <div style="font-size:20px; font-weight:700; color:#1a1a1a; line-height:1.2;">Facebook Partner</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+    <!-- P2 目录 -->
+   <div class="slide content-slide">
+  <div class="slide-header">
+    <span class="slide-number">02</span>
+  </div>
+  <h2 class="slide-title">目录 Contents</h2>
+
+  <!-- 居中容器：整体居中，内容左对齐 -->
+  <div style="margin:0 auto; max-width:600px;">
+    
+    <div class="toc-item">
+      <div class="toc-number">01</div>
+      <div>市场洞察 Market Insights</div>
+    </div>
+    
+    <div class="toc-item">
+      <div class="toc-number">02</div>
+      <div>合作模式 Cooperation Model</div>
+    </div>
+    
+    <div class="toc-item">
+      <div class="toc-number">03</div>
+      <div>成功案例 Success Cases</div>
+    </div>
+    
+  </div>
+</div>
+
+    <!-- P3 YouTube市场洞察 -->
+    <div class="slide content-slide">
+        <div class="slide-header">
+            <span class="slide-number">03</span>
+        </div>
+        <h2 class="slide-title">市场洞察 Market Insights</h2>
+        <p class="slide-subtitle">YouTube 全球市场分析</p>
+        
+        <div class="insight-grid">
+            <div class="insight-card">
+                <h3 class="insight-title">全球用户规模</h3>
+                <p class="insight-content">
+                    YouTube月活用户超过26亿，覆盖全球100+国家和地区
+                    <br><span class="bilingual">2.6B+ MAU across 100+ countries</span>
+                </p>
+            </div>
+            <div class="insight-card">
+                <h3 class="insight-title">变现能力</h3>
+                <p class="insight-content">
+                    广告分成、频道会员、超级留言等多元化收入模式
+                    <br><span class="bilingual">Multiple monetization channels available</span>
+                </p>
+            </div>
+            <div class="insight-card">
+                <h3 class="insight-title">内容趋势</h3>
+                <p class="insight-content">
+                    中文内容需求增长300%，娱乐教育类视频最受欢迎
+                    <br><span class="bilingual">300% growth in Chinese content demand</span>
+                </p>
+            </div>
+            <div class="insight-card">
+                <h3 class="insight-title">算法优势</h3>
+                <p class="insight-content">
+                    精准推荐机制，优质内容可获得全球曝光机会
+                    <br><span class="bilingual">AI-powered discovery boosts quality content</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- P4 Facebook & Instagram市场洞察 -->
+    <div class="slide content-slide">
+        <div class="slide-header">
+            <span class="slide-number">04</span>
+        </div>
+        <h2 class="slide-title">市场洞察 Market Insights</h2>
+        <p class="slide-subtitle">Facebook & Instagram 全球市场</p>
+        
+        <div class="insight-grid">
+            <div class="insight-card">
+                <h3 class="insight-title">Facebook优势</h3>
+                <p class="insight-content">
+                    29亿月活用户，强大的社群功能和广告系统
+                    <br><span class="bilingual">2.9B MAU with powerful community tools</span>
+                </p>
+            </div>
+            <div class="insight-card">
+                <h3 class="insight-title">Instagram潜力</h3>
+                <p class="insight-content">
+                    20亿月活，视觉内容为王，Reels短视频快速增长
+                    <br><span class="bilingual">2B MAU, visual-first platform, Reels booming</span>
+                </p>
+            </div>
+            <div class="insight-card">
+                <h3 class="insight-title">跨平台联动</h3>
+                <p class="insight-content">
+                    Meta生态内多平台分发，内容传播效果倍增
+                    <br><span class="bilingual">Cross-platform synergy amplifies reach</span>
+                </p>
+            </div>
+            <div class="insight-card">
+                <h3 class="insight-title">商业变现</h3>
+                <p class="insight-content">
+                    星标、广告分成、直播打赏等多种变现方式
+                    <br><span class="bilingual">Stars, ad revenue, live streaming gifts</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- P5 合作模式 - 优势 -->
+    <div class="slide content-slide">
+        <div class="slide-header">
+            <span class="slide-number">05</span>
+        </div>
+        <h2 class="slide-title">合作模式 Cooperation Model</h2>
+        <p class="slide-subtitle">Dash Now 核心优势</p>
+        
+        <div class="cooperation-content">
+            <div class="advantage-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>官方认证合作伙伴</strong>
+                        <br><span class="bilingual">YouTube & Facebook Official Partner</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>专业运营团队支持</strong>
+                        <br><span class="bilingual">Professional operation team support</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>多语言本地化服务</strong>
+                        <br><span class="bilingual">Multilingual localization services</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>数据驱动的增长策略</strong>
+                        <br><span class="bilingual">Data-driven growth strategies</span>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+    <!-- P6 合作模式 - 支持内容 -->
+    <div class="slide content-slide">
+        <div class="slide-header">
+            <span class="slide-number">06</span>
+        </div>
+        <h2 class="slide-title">合作模式 Cooperation Model</h2>
+        <p class="slide-subtitle">全方位运营支持服务</p>
+        
+        <div class="cooperation-content">
+            <div class="advantage-list">
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>内容策划与制作指导</strong>
+                        <br><span class="bilingual">Content planning and production guidance</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>频道优化与SEO提升</strong>
+                        <br><span class="bilingual">Channel optimization and SEO enhancement</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>跨境版权保护服务</strong>
+                        <br><span class="bilingual">Cross-border copyright protection</span>
+                    </div>
+                </div>
+                <div class="advantage-item">
+                    <div class="advantage-icon"></div>
+                    <div>
+                        <strong>收益最大化方案</strong>
+                        <br><span class="bilingual">Revenue maximization strategies</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- P7 YouTube案例1 -->
+    <div class="slide content-slide">
+  <div class="slide-header">
+    <span class="slide-number">07</span>
+  </div>
+  <h2 class="slide-title">成功案例 Success Cases</h2>
+  <p class="slide-subtitle">YouTube 顶级创作者</p>
+
+  <div class="case-grid">
+    <!-- 左侧：阿Test正经比比 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/atest1.jpg" alt="阿Test正经比比" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">阿Test正经比比</h3>
+        <p class="case-desc">
+          科技评测类头部创作者，订阅量将近10万，观看量1000万+
+          <br><span class="bilingual">Top tech reviewer, 96k subs, 10M+ views</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 右侧：中国好声音 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/sing1.jpg" alt="中国好声音官方频道" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">中国好声音官方频道</h3>
+        <p class="case-desc">
+          音乐综艺节目成功出海，单期视频最高播放量突破5000万，订阅用户达51.3万
+          <br><span class="bilingual">Music show going global, Peak single-video views: 50M+ | Total subscribers: 513K</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- P8 YouTube案例2 -->
+   <!-- 第 8 页：三栏并排（上图下字） -->
+<div class="slide content-slide">
+  <div class="slide-header">
+    <span class="slide-number">08</span>
+  </div>
+  <h2 class="slide-title">成功案例 Success Cases</h2>
+  <p class="slide-subtitle">YouTube 热门频道</p>
+
+  <!-- 三列网格 -->
+  <div class="case-grid" style="grid-template-columns:repeat(3, 1fr); gap:30px;">
+    
+    <!-- 1. 上海小爷叔 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/xys1.jpg" alt="上海小爷叔" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+       <h3 class="case-title">上海的小爷叔官方频道</h3>
+        <p class="case-desc">
+          地域文化内容创作者，海外华人喜闻乐见，频道运营一个月即开始获利
+          <br><span class="bilingual">Niche culture creator. A hit with overseas Chinese. Profitable in month one.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. 金星 YYDS -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/jingxing1.png" alt="金星YYDS" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">金星 YYDS</h3>
+        <p class="case-desc">
+         华语脱口秀，经久不衰，文化输出标杆案例
+          <br><span class="bilingual">Chinese Talk Show: An Enduring Cultural Export & Defining Case.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. 青曲社（新增） -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/qqs1.jpg" alt="青曲社" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">青曲社</h3>
+        <p class="case-desc">
+          相声新势力出海，传统曲艺获海外年轻观众追捧，播放量破 1500 万
+          <br><span class="bilingual">Xiangsheng new force, 15M+ plays overseas</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- P9 YouTube案例3 -->
+    <div class="slide content-slide">
+  <div class="slide-header">
+    <span class="slide-number">09</span>
+  </div>
+  <h2 class="slide-title">成功案例 Success Cases</h2>
+  <p class="slide-subtitle">YouTube 综艺频道</p>
+
+  <div class="case-grid">
+    <!-- 左侧：灿星官方频道 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/cx1.jpg" alt="灿星官方频道" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">灿星官方频道</h3>
+        <p class="case-desc">
+          企业官方频道，多档节目同步出海，23.7万订阅用户
+          <br><span class="bilingual"> Official Channel
+• Multiple Shows Going Global
+• 237K Subscribers</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 右侧：蒙面唱将猜猜猜 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/mm1.jpg" alt="蒙面唱将猜猜猜官方频道" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">蒙面唱将猜猜猜官方频道</h3>
+        <p class="case-desc">
+          音乐竞猜节目，创意形式深受海外用户喜爱，订阅用户达24.8万
+          <br><span class="bilingual">A creative music guessing show, a global hit, with 248K subscribers.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- P10 Facebook案例 -->
+    <!-- 第 10 页：三列并排（上图下字，同第 8 页样式） -->
+<div class="slide content-slide">
+  <div class="slide-header">
+    <span class="slide-number">10</span>
+  </div>
+  <h2 class="slide-title">成功案例 Success Cases</h2>
+  <p class="slide-subtitle">Facebook 品牌频道</p>
+
+  <!-- 三列网格（同第 8 页结构） -->
+  <div class="case-grid" style="grid-template-columns:repeat(3, 1fr); gap:30px;">
+    
+    <!-- 1. 中国东方卫视 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/dgtv.jpg" alt="中国东方卫视" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">中国东方卫视</h3>
+        <p class="case-desc">
+          国内首个出海的卫视频道，Facebook 粉丝突破90万，直播观看创新高
+          <br><span class="bilingual">Provincial TV station, 900k FB followers</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. 中国好声音 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/singsyc1.jpg" alt="中国好声音" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">中国好声音</h3>
+        <p class="case-desc">
+          音乐 IP 跨平台运营，Facebook 互动率行业领先，话题讨论热烈
+          <br><span class="bilingual">Cross-platform music IP, industry-leading engagement</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. 极限挑战 -->
+    <div class="case-item">
+      <div class="case-image" style="height:250px; overflow:hidden;">
+        <img src="./images/gofighting.jpg" alt="极限挑战" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="case-info">
+        <h3 class="case-title">极限挑战</h3>
+        <p class="case-desc">
+          真人秀节目海外热播，Facebook 视频播放量累计突破亿次
+          <br><span class="bilingual">Reality show hit overseas, 1B+ total views</span>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- P11 感谢 -->
+    <div class="slide thank-you">
+        <div class="logo" style="width:120px; height:120px; margin:0 auto 30px; overflow:hidden; border-radius:16px; box-shadow:0 10px 30px rgba(0,82,255,.25);">
+    <img src="./images/logo.png" alt="Dash Now Logo" style="width:100%; height:100%; object-fit:contain;">
+  </div>
+        <h1>感谢关注！</h1>
+        <p>Thank You for Your Attention</p>
+         <div style="margin-top:50px; font-size:24px; line-height:1.6; opacity:0.95;">
+    <p style="margin:0;">联系我们 / Contact Us：</p>
+    <p style="margin:8px 0 0; font-weight:600;">WeChat：371922739</p>
+    <p style="margin:8px 0 0; font-weight:600;">Tel：+852 6357 6561</p>
+  </div>
+        <p style="font-size: 20px; margin-top: 40px; opacity: 0.8;">
+            期待与您合作 · Looking forward to our collaboration.
+        </p>
+    </div>
+
+    <!-- 导航按钮 -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            // 更新进度条
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // 更新导航按钮状态
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            if (direction === 1 && currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else if (direction === -1 && currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // 键盘导航
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        // 初始化
+        showSlide(0);
+
+        // 自动播放（可选）
+        // setInterval(() => changeSlide(1), 10000);
+    </script>
+</body>
+</html>
