@@ -112,6 +112,18 @@ body{
   border-radius:16px;
   background:#fff;
   box-shadow:0 6px 20px rgba(0,82,255,.1);
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  user-select:none;
+}
+.toc-item:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,82,255,.16);
+  background:#f8fbff;
+}
+.toc-item:focus-visible{
+  outline:3px solid rgba(0,82,255,.35);
+  outline-offset:3px;
 }
 .toc-number{
   width:56px;height:56px;border-radius:50%;
@@ -339,10 +351,10 @@ body{
   <div class="slide-header"><span class="slide-number">02</span></div>
   <h2 class="slide-title">目录 Contents</h2>
   <div style="max-width:600px;margin:0 auto;">
-    <div class="toc-item"><div class="toc-number">01</div>市场洞察 Market Insights</div>
-    <div class="toc-item"><div class="toc-number">02</div>合作模式 Cooperation Model</div>
-    <div class="toc-item"><div class="toc-number">03</div>成功案例 Success Cases</div>
-    <div class="toc-item"><div class="toc-number">04</div>关于我们 Company Overview</div>
+    <div class="toc-item" role="button" tabindex="0" data-target-slide="2" aria-label="跳转到市场洞察"><div class="toc-number">01</div>市场洞察 Market Insights</div>
+    <div class="toc-item" role="button" tabindex="0" data-target-slide="4" aria-label="跳转到合作模式"><div class="toc-number">02</div>合作模式 Cooperation Model</div>
+    <div class="toc-item" role="button" tabindex="0" data-target-slide="6" aria-label="跳转到成功案例"><div class="toc-number">03</div>成功案例 Success Cases</div>
+    <div class="toc-item" role="button" tabindex="0" data-target-slide="10" aria-label="跳转到关于我们"><div class="toc-number">04</div>关于我们 Company Overview</div>
   </div>
 </div>
 
@@ -782,6 +794,28 @@ function changeSlide(direction) {
     showSlide(currentSlide - 1);
   }
 }
+
+// 目录跳转：点击或按 Enter / Space，进入对应章节第一页
+function goToSlide(index) {
+  if (Number.isInteger(index) && index >= 0 && index < totalSlides) {
+    showSlide(index);
+  }
+}
+
+document.querySelectorAll('.toc-item[data-target-slide]').forEach((item) => {
+  const targetIndex = Number(item.dataset.targetSlide);
+
+  item.addEventListener('click', () => {
+    goToSlide(targetIndex);
+  });
+
+  item.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      goToSlide(targetIndex);
+    }
+  });
+});
 
 showSlide(0);
 </script>
