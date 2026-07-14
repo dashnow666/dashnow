@@ -33,11 +33,21 @@
   "url": "https://global.dashnow.net/",
   "logo": "https://global.dashnow.net/images/logo.png",
   "telephone": "+852 63576561",
+  "email": "hello@dashnow.net",
   "description": "Dash Now provides global platform operations, content localization, copyright protection and creator growth services."
 }
 </script>
 
 <title>Dash Now | Global Content & YouTube Growth Partner</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YM2142MKDT"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-YM2142MKDT');
+</script>
+
 
 <style>
 /* ================== Reset ================== */
@@ -163,6 +173,18 @@ body{
 
 .bilingual{font-size:.9em;opacity:.75;font-style:italic;}
 
+
+/* ================== About Us ================== */
+.about-layout{width:100%;max-width:1200px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+.about-copy{background:#fff;padding:36px 38px;border-radius:22px;box-shadow:0 12px 42px rgba(0,82,255,.10);border:1px solid rgba(0,82,255,.08);}
+.about-kicker{font-size:16px;letter-spacing:.18em;font-weight:700;color:#00A7D6;margin-bottom:18px;}
+.about-copy p{font-size:19px;line-height:1.9;color:#334155;}
+.about-copy .about-en{margin-top:22px;padding-top:22px;border-top:1px solid rgba(0,82,255,.10);font-size:16px;line-height:1.75;color:#64748b;}
+.about-map-card{background:linear-gradient(145deg,#f8fbff 0%,#eef7ff 100%);border-radius:24px;padding:24px;box-shadow:0 12px 42px rgba(0,82,255,.10);border:1px solid rgba(0,82,255,.08);}
+.about-map-card img{width:100%;height:auto;display:block;border-radius:16px;}
+.about-map-title{margin-top:18px;text-align:center;font-size:24px;font-weight:700;color:#0052FF;}
+.about-map-subtitle{margin-top:8px;text-align:center;font-size:16px;color:#64748b;}
+
 /* ================== Thank You ================== */
 .thank-you{
   background:linear-gradient(135deg,#0052FF,#00D4FF);
@@ -209,6 +231,11 @@ body{
   .insight-grid,
   .case-grid{grid-template-columns:1fr !important;gap:20px;}
   .case-image{height:180px !important;}
+  .about-layout{grid-template-columns:1fr;gap:20px;}
+  .about-copy{padding:24px;}
+  .about-copy p{font-size:16px;}
+  .about-copy .about-en{font-size:14px;}
+  .about-map-card{padding:16px;}
   .nav-buttons{bottom:20px;right:20px;gap:12px;}
   .nav-btn{width:48px;height:48px;font-size:20px;}
 }
@@ -315,6 +342,7 @@ body{
     <div class="toc-item"><div class="toc-number">01</div>市场洞察 Market Insights</div>
     <div class="toc-item"><div class="toc-number">02</div>合作模式 Cooperation Model</div>
     <div class="toc-item"><div class="toc-number">03</div>成功案例 Success Cases</div>
+    <div class="toc-item"><div class="toc-number">04</div>关于我们 Company Overview</div>
   </div>
 </div>
 
@@ -677,7 +705,37 @@ body{
 </div>
 
 
- <!-- ===== P11 Thank You & Contact ===== -->
+ 
+<!-- ===== P11 About Us ===== -->
+<div class="slide content-slide">
+  <div class="slide-header"><span class="slide-number">11</span></div>
+  <h2 class="slide-title">关于我们 Company Overview</h2>
+  <p class="slide-subtitle">Shanghai · Hong Kong · Global</p>
+
+  <div class="about-layout">
+    <div class="about-copy">
+      <div class="about-kicker">ABOUT DASH NOW</div>
+      <p>
+        DashNow成立于2016年，总部位于上海，并在香港设立分公司。
+        自2018年起，团队持续深耕全球化业务，专注于内容出海、数字营销与海外平台运营，
+        为品牌、媒体及创作者提供从内容策略、本地化运营到全球增长的一站式解决方案。
+      </p>
+      <p class="about-en">
+        Founded in Shanghai in 2016, DashNow has established a branch in Hong Kong.
+        Since 2018, we have focused on global content growth, digital marketing and international platform operations,
+        helping brands, media companies and creators expand worldwide through strategy, localization and platform growth.
+      </p>
+    </div>
+
+    <div class="about-map-card">
+      <img src="./images/aboutus.png" alt="Dash Now global presence in Shanghai and Hong Kong">
+      <div class="about-map-title">Global Presence</div>
+      <div class="about-map-subtitle">Connecting China with Global Markets</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== P12 Thank You & Contact ===== -->
 <div class="slide thank-you">
   <div class="logo">
     <img src="./images/logo.png">
@@ -689,7 +747,7 @@ body{
   <div style="margin-top:60px;font-size:22px;line-height:1.8;opacity:.95;">
     <div>🌐 电话 Tel ：+852 63576561</div>
     <div>💬 微信 WeChat：371922739</div>
-    <div>✉️ E-mail：hello@dashnow.net</div>
+    <div>✉️ E-mail：<a href="mailto:hello@dashnow.net" style="color:#fff;text-decoration:none;">hello@dashnow.net</a></div>
   </div>
 </div>
 
