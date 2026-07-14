@@ -537,6 +537,85 @@ img{max-width:100%;}
   }
 }
 
+
+
+/* ================== Mobile scroll & interaction fix ================== */
+.toc-item{
+  position:relative;
+  z-index:2;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(21,94,239,.12);
+}
+.nav-btn{
+  touch-action:manipulation;
+}
+
+@media (max-width:768px){
+  html,
+  body{
+    width:100%;
+    height:auto !important;
+    min-height:100%;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:auto;
+  }
+
+  body{
+    position:static !important;
+    touch-action:pan-y;
+  }
+
+  .slide{
+    width:100%;
+    height:auto !important;
+    min-height:100dvh;
+    overflow:visible !important;
+  }
+
+  .slide.active{
+    display:flex;
+    height:auto !important;
+    min-height:100dvh;
+    overflow:visible !important;
+  }
+
+  .content-slide{
+    height:auto !important;
+    min-height:100dvh;
+    overflow:visible !important;
+    padding-bottom:132px;
+    touch-action:pan-y;
+  }
+
+  .cover,
+  .thank-you{
+    height:auto !important;
+    min-height:100dvh;
+    overflow:visible !important;
+    padding-bottom:132px;
+    touch-action:pan-y;
+  }
+
+  .toc-slide{
+    min-height:100dvh;
+  }
+
+  .case-grid,
+  .insight-grid,
+  .advantage-list,
+  .about-layout,
+  .contact-grid{
+    overflow:visible;
+  }
+
+  .nav-buttons{
+    position:fixed;
+    bottom:calc(14px + env(safe-area-inset-bottom));
+    z-index:9999;
+  }
+}
 </style>
 </head>
 <body>
@@ -586,10 +665,10 @@ img{max-width:100%;}
 <div class="slide-header"><span class="slide-number">02</span></div>
 <h2 class="slide-title">目录 Contents</h2>
 <div class="toc-grid">
-<div aria-label="跳转到市场洞察" class="toc-item" data-target-slide="2" role="button" tabindex="0"><div class="toc-number">01</div><div class="toc-copy"><strong>市场洞察</strong><span>Market Insights</span></div><div class="toc-arrow">↗</div></div>
-<div aria-label="跳转到合作模式" class="toc-item" data-target-slide="4" role="button" tabindex="0"><div class="toc-number">02</div><div class="toc-copy"><strong>合作模式</strong><span>Cooperation Model</span></div><div class="toc-arrow">↗</div></div>
-<div aria-label="跳转到成功案例" class="toc-item" data-target-slide="6" role="button" tabindex="0"><div class="toc-number">03</div><div class="toc-copy"><strong>成功案例</strong><span>Success Cases</span></div><div class="toc-arrow">↗</div></div>
-<div aria-label="跳转到关于我们" class="toc-item" data-target-slide="10" role="button" tabindex="0"><div class="toc-number">04</div><div class="toc-copy"><strong>关于我们</strong><span>Company Overview</span></div><div class="toc-arrow">↗</div></div>
+<div aria-label="跳转到市场洞察" class="toc-item" data-target-slide="2" onclick="showSlide(2)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSlide(2);}" role="button" tabindex="0"><div class="toc-number">01</div><div class="toc-copy"><strong>市场洞察</strong><span>Market Insights</span></div><div class="toc-arrow">↗</div></div>
+<div aria-label="跳转到合作模式" class="toc-item" data-target-slide="4" onclick="showSlide(4)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSlide(4);}" role="button" tabindex="0"><div class="toc-number">02</div><div class="toc-copy"><strong>合作模式</strong><span>Cooperation Model</span></div><div class="toc-arrow">↗</div></div>
+<div aria-label="跳转到成功案例" class="toc-item" data-target-slide="6" onclick="showSlide(6)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSlide(6);}" role="button" tabindex="0"><div class="toc-number">03</div><div class="toc-copy"><strong>成功案例</strong><span>Success Cases</span></div><div class="toc-arrow">↗</div></div>
+<div aria-label="跳转到关于我们" class="toc-item" data-target-slide="10" onclick="showSlide(10)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSlide(10);}" role="button" tabindex="0"><div class="toc-number">04</div><div class="toc-copy"><strong>关于我们</strong><span>Company Overview</span></div><div class="toc-arrow">↗</div></div>
 </div>
 </div>
 <!-- P3 YouTube市场洞察 -->
@@ -968,9 +1047,17 @@ const slides = document.querySelectorAll('.slide');
 const totalSlides = slides.length;
 
 function showSlide(n) {
+  if (!Number.isFinite(Number(n))) return;
+
   slides[currentSlide].classList.remove('active');
-  currentSlide = (n + totalSlides) % totalSlides;
+  currentSlide = (Number(n) + totalSlides) % totalSlides;
   slides[currentSlide].classList.add('active');
+
+  // 切换页面时回到页面顶部，兼容手机浏览器与微信内置浏览器
+  slides[currentSlide].scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo(0, 0);
 
   const progress = document.getElementById('progressBar');
   if (progress) {
@@ -1001,19 +1088,23 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-// 移动端左右滑动
+// 移动端左右滑动：只有明显的横向手势才翻页，不干扰上下滚动
 let touchStartX = 0;
-let touchEndX = 0;
+let touchStartY = 0;
 
 document.addEventListener('touchstart', (event) => {
-  touchStartX = event.changedTouches[0].screenX;
+  const touch = event.changedTouches[0];
+  touchStartX = touch.screenX;
+  touchStartY = touch.screenY;
 }, { passive: true });
 
 document.addEventListener('touchend', (event) => {
-  touchEndX = event.changedTouches[0].screenX;
-  const distance = touchEndX - touchStartX;
-  if (Math.abs(distance) > 60) {
-    changeSlide(distance < 0 ? 1 : -1);
+  const touch = event.changedTouches[0];
+  const distanceX = touch.screenX - touchStartX;
+  const distanceY = touch.screenY - touchStartY;
+
+  if (Math.abs(distanceX) > 80 && Math.abs(distanceX) > Math.abs(distanceY) * 1.5) {
+    changeSlide(distanceX < 0 ? 1 : -1);
   }
 }, { passive: true });
 
